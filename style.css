@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5, 120px);
+    grid-template-rows: repeat(2, 170px);
+    gap: 1.5rem;
+}
+
+.result {
+    text-align: center;
+    font: 700 4rem "Roboto", sans-serif;
+}
+
+.card {
+    border: 1px solid;
+    background: no-repeat center / contain;
+    background-image: url(cards/1.svg);
+    border-radius: 20px;
+}
