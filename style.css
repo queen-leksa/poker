@@ -13,7 +13,7 @@ body {
 .cards {
     display: grid;
     grid-template-columns: repeat(5, 120px);
-    grid-template-rows: repeat(2, 170px);
+    grid-template-rows: repeat(1, 170px);
     gap: 1.5rem;
 }
 

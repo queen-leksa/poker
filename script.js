@@ -1,5 +1,5 @@
 let hand = [];
-let cnt = 15;
+let cnt = 5;
 let el = document.querySelector(".cards");
 let text = document.querySelector(".result");
 
@@ -51,7 +51,11 @@ function sameSuits(deck) {
         }
         sameCards[card.suit].push(card.rank);
     });
-    return sameCards;
+    for (let suit in sameCards) {
+        if (sameCards[suit].length === 5) {
+            return [suit, sameCards[suit]]
+        }
+    };
 }
 
 
@@ -75,19 +79,64 @@ function getPairs(same) {
     return pairs;
 }
 
+function street(same) {
+    /*
+        A K D V 10 9 ...
+        {
+            A: 2,
+            D: 4,
+            k: 1,
+            7: 1
+        }
+        flag = 0;
+        A flag++
+        K flag++
+        D flag++
+        V flag = 1;
+    */
+    let cnt = 0;
+    for (let i = series.length - 1; i >= 0; i--) {
+        let flag = false;
+        for (let rank in same) {
+            if (series[i] === rank) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            cnt++;
+        } else {
+            cnt = 0;
+        }
+        if (cnt === 5) {
+            return series[i + 4];
+        } 
+    }
+}
 
 
 const ranksCnt = same(hand);
-
+let strt = street(ranksCnt);
+console.log("street", strt);
 let hight = hightCard(hand);
 let four = getFour(ranksCnt);
 let three = getThree(ranksCnt);
 let pairs = getPairs(ranksCnt);
-
-if (four) {
+let flash = sameSuits(hand);
+if (strt && flash) {
+    if (strt === "Туз") {
+        text.innerHTML = `Роял флэш`;
+    } else {
+        text.innerHTML = `Стрит флэш`;
+    }
+} else if (four) {
     text.innerHTML = `Каре из ${four}`;
 } else if (three && pairs.length) {
     text.innerHTML = `Фулл Хаус`;
+} else if (flash) {
+    text.innerHTML = `Флэш из ${flash[0]}`;
+} else if (strt) {
+    text.innerHTML = `Стрит с ${strt}`;
 } else if (three) {
     text.innerHTML = `Трипс из ${three}`;
 } else if (pairs.length) {
@@ -97,3 +146,10 @@ if (four) {
 }
 
 console.log(sameSuits(hand));
+
+
+
+/*
+    street - последовательно все карты
+    flash - пять карт одной масти
+*/
